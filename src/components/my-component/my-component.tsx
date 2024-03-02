@@ -1,32 +1,33 @@
-import { Component, Prop, h } from '@stencil/core';
-import { format } from '../../utils/utils';
+import { Component, ComponentInterface, Host, State, h } from '@stencil/core';
+
+const DEFAULT_ITEM_COUNT = 8;
 
 @Component({
   tag: 'my-component',
   styleUrl: 'my-component.css',
-  shadow: true,
+  shadow: false,
+  scoped: true,
 })
-export class MyComponent {
-  /**
-   * The first name
-   */
-  @Prop() first: string;
+export class MyComponent implements ComponentInterface {
+  @State() dynamicTestItems: HTMLElement[] = [];
 
-  /**
-   * The middle name
-   */
-  @Prop() middle: string;
-
-  /**
-   * The last name
-   */
-  @Prop() last: string;
-
-  private getText(): string {
-    return format(this.first, this.middle, this.last);
+  componentWillLoad(): void | Promise<void> {
+    this.dynamicTestItems = this.createTestVNodes();
   }
 
+  private createTestVNodes = (count = DEFAULT_ITEM_COUNT, shuffle = false): HTMLElement[] => {
+    const items = Array.from(new Array(count)).map((_, i) => <span class="default-slot-item">{`item-${i}`}</span>);
+    return shuffle ? items.sort(() => Math.random() - 0.5) : items;
+  };
+
   render() {
-    return <div>Hello, World! I'm {this.getText()}</div>;
+    return (
+      <Host>
+        <my-nested-component>
+          <span slot="header">Header Text</span>
+          {this.dynamicTestItems}
+        </my-nested-component>
+      </Host>
+    );
   }
 }

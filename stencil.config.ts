@@ -2,6 +2,10 @@ import { Config } from '@stencil/core';
 
 export const config: Config = {
   namespace: 'stencil-v4-sc-deep-nested-slot-reordering',
+  extras: {
+    experimentalSlotFixes: true,
+    experimentalScopedSlotChanges: true,
+  },
   outputTargets: [
     {
       type: 'dist',
@@ -19,6 +23,6 @@ export const config: Config = {
     },
   ],
   testing: {
-    browserHeadless: "new",
+    browserHeadless: 'new',
   },
 };

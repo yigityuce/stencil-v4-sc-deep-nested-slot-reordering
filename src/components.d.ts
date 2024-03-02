@@ -7,18 +7,10 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface MyComponent {
-        /**
-          * The first name
-         */
-        "first": string;
-        /**
-          * The last name
-         */
-        "last": string;
-        /**
-          * The middle name
-         */
-        "middle": string;
+    }
+    interface MyDummyComponent {
+    }
+    interface MyNestedComponent {
     }
 }
 declare global {
@@ -28,27 +20,35 @@ declare global {
         prototype: HTMLMyComponentElement;
         new (): HTMLMyComponentElement;
     };
+    interface HTMLMyDummyComponentElement extends Components.MyDummyComponent, HTMLStencilElement {
+    }
+    var HTMLMyDummyComponentElement: {
+        prototype: HTMLMyDummyComponentElement;
+        new (): HTMLMyDummyComponentElement;
+    };
+    interface HTMLMyNestedComponentElement extends Components.MyNestedComponent, HTMLStencilElement {
+    }
+    var HTMLMyNestedComponentElement: {
+        prototype: HTMLMyNestedComponentElement;
+        new (): HTMLMyNestedComponentElement;
+    };
     interface HTMLElementTagNameMap {
         "my-component": HTMLMyComponentElement;
+        "my-dummy-component": HTMLMyDummyComponentElement;
+        "my-nested-component": HTMLMyNestedComponentElement;
     }
 }
 declare namespace LocalJSX {
     interface MyComponent {
-        /**
-          * The first name
-         */
-        "first"?: string;
-        /**
-          * The last name
-         */
-        "last"?: string;
-        /**
-          * The middle name
-         */
-        "middle"?: string;
+    }
+    interface MyDummyComponent {
+    }
+    interface MyNestedComponent {
     }
     interface IntrinsicElements {
         "my-component": MyComponent;
+        "my-dummy-component": MyDummyComponent;
+        "my-nested-component": MyNestedComponent;
     }
 }
 export { LocalJSX as JSX };
@@ -56,6 +56,8 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+            "my-dummy-component": LocalJSX.MyDummyComponent & JSXBase.HTMLAttributes<HTMLMyDummyComponentElement>;
+            "my-nested-component": LocalJSX.MyNestedComponent & JSXBase.HTMLAttributes<HTMLMyNestedComponentElement>;
         }
     }
 }
